@@ -116,7 +116,7 @@ class Snippets(commands.Cog):
         await ctx.send(content)
 
     @commands.command(name="gsnippets", aliases=["gsnips", "glist"])
-    async def snippets_list(self, ctx: commands.Context):
+    async def snippets_glist(self, ctx: commands.Context):
         keys = self.redis.keys(f"{ctx.guild.id}:*")
         keys = [key.decode("utf-8").split(":", 1)[1] for key in keys]
         keys.sort()
