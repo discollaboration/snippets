@@ -145,7 +145,12 @@ class Snippets(commands.Cog):
         data = {
             "username":message.author.name,
             "avatar_url":str(message.author.avatar_url_as(format="png")),
-            "content":content
+            "content":content,
+            "allowed_mentions":{
+                "everyone":False,
+                "roles":False,
+                "users":False
+            }
         }
 
         await message.delete()
