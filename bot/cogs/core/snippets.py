@@ -56,9 +56,10 @@ class Snippets(commands.Cog):
     @commands.command(name="help")
     async def snippet_help(self, ctx: commands.Context):
         help_text = "**__Available commands:__**\n"
-        help_text += "`snippet create <name> <text>` - create a user snippet\n`snippet gcreate <name> <text>` - create a guild snippet\n"
-        help_text += "`snippet delete <name>` - delete a user snippet\n`snippet gdelete <name>` - delete a guild snippet\n"
-        help_text += "`snippet list` - list user snippets\n`snippet glist` - list guild snippets\n`snippet invite` - invite the bot to your server\n\n"
+        help_text += "`snippet create <name> <text>` - create a user snippet\n`snippet gcreate <name> <text>` - create a guild snippet*\n"
+        help_text += "`snippet delete <name>` - delete a user snippet\n`snippet gdelete <name>` - delete a guild snippet*\n"
+        help_text += "`snippet list` - list user snippets\n`snippet glist` - list guild snippets\n`snippet invite` - invite the bot to your server\n"
+        help_text += "*these commands require the manage messages role permission\n\n"
         help_text += "**All commands can be called with `snippet <command>` OR `sp <command>`**"
         await ctx.send(help_text)
 
