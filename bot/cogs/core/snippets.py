@@ -65,7 +65,7 @@ class Snippets(commands.Cog):
     @commands.command(name="invite")
     async def snippet_invite(self, ctx: commands.Context):
         desc = f"[Click this link to invite Snippets to your own server](https://discord.com/api/oauth2/authorize?client_id={self.bot.user.id}&permissions=536882176&scope=bot)"
-        embed = Embed(name="Invite Snippets", description=desc)
+        embed = Embed(colour=0x87ceeb, description=desc)
         await ctx.send(embed=embed)
 
     @commands.command(name="create")
