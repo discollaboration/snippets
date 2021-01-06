@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  bot:
+    build: .
+    restart: always
+    depends_on:
+      - redis
+    links:
+      - redis
+
+  redis:
+    image: redis
+    restart: always
+    volumes:
+      - ./data:/data
