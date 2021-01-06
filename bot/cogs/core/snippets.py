@@ -58,7 +58,7 @@ class Snippets(commands.Cog):
         help_text = "**__Available commands:__**\n"
         help_text += "`snippet create <name> <text>` - create a user snippet\n`snippet gcreate <name> <text>` - create a guild snippet\n"
         help_text += "`snippet delete <name>` - delete a user snippet\n`snippet gdelete <name>` - delete a guild snippet\n"
-        help_text += "`snippet list` - list user snippets\n`snippet glist` - list guild snippets`snippet invite` - invite the bot to your server\n\n"
+        help_text += "`snippet list` - list user snippets\n`snippet glist` - list guild snippets\n`snippet invite` - invite the bot to your server\n\n"
         help_text += "**All commands can be called with `snippet <command>` OR `sp <command>`**"
         await ctx.send(help_text)
 
