@@ -6,7 +6,7 @@ import redis
 
 from bot.bot import Bot
 
-sr = compile(r"\{\{[a-zA-Z0-9]+\}\}")
+sr = compile(r"\{\{\S+\}\}")
 
 
 class Snippets(commands.Cog):
