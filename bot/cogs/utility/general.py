@@ -1,4 +1,5 @@
 import time
+import discord
 from discord.ext import commands
 
 from bot.bot import Bot
@@ -90,6 +91,7 @@ class General(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         self.bot.logger.info(f"{name} has started")
+        await self.bot.change_presence(activity=discord.Game(name="sp help"))
 
 
 def setup(bot: Bot):
