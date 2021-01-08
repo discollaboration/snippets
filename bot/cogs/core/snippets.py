@@ -7,6 +7,7 @@ import redis
 from bot.bot import Bot
 
 sr = compile(r"\{\{\S+\}\}")
+special = ["member_count", "user_count", "bot_count"]
 
 
 class Snippets(commands.Cog):
@@ -37,6 +38,18 @@ class Snippets(commands.Cog):
         valid = {}
         for s in snips:
             s = s.lower()
+
+            # Handle special cases
+            if s in special:
+                if s == "member_count":
+                    valid[self.fmt(s)] = str(message.guild.member_count)
+                elif s == "user_count":
+                    valid[self.fmt(s)] = str(len([m for m in message.guild.members if not m.bot]))
+                elif s == "bot_count":
+                    valid[self.fmt(s)] = str(len([m for m in message.guild.members if m.bot]))
+
+                continue
+
             userkey = f"{message.author.id}:{s}"
             guildkey = f"{message.guild.id}:{s}"
             if data := self.getkey(userkey):
@@ -71,6 +84,8 @@ class Snippets(commands.Cog):
 
     @commands.command(name="create")
     async def snippet_create(self, ctx: commands.Context, name: str, *, content: str):
+        if name in special:
+            return await ctx.send(f"This is a reserved snippet name and cannot be bound to user snippets.")
         key = f"{ctx.author.id}:{name.lower()}"
         if self.getkey(key):
             return await ctx.send(f"You already have a snippet with that name. To delete it you can use `snippet delete {name}`")
@@ -88,6 +103,8 @@ class Snippets(commands.Cog):
     @commands.command(name="gcreate")
     @commands.has_guild_permissions(manage_messages=True)
     async def snippet_gcreate(self, ctx: commands.Context, name: str, *, content: str):
+        if name in special:
+            return await ctx.send(f"This is a reserved snippet name and cannot be bound to user snippets.")
         key = f"{ctx.guild.id}:{name.lower()}"
         if self.getkey(key):
             return await ctx.send(f"This guild already has a snippet with that name. To delete it you can use `snippet gdelete {name}`")
