@@ -2,6 +2,7 @@ from re import compile
 from discord import Embed
 from discord.ext import commands
 from requests import post
+from git import Repo
 import redis
 
 from bot.bot import Bot
@@ -72,6 +73,7 @@ class Snippets(commands.Cog):
         help_text += "`snippet create <name> <text>` - create a user snippet\n`snippet gcreate <name> <text>` - create a guild snippet*\n"
         help_text += "`snippet delete <name>` - delete a user snippet\n`snippet gdelete <name>` - delete a guild snippet*\n"
         help_text += "`snippet list` - list user snippets\n`snippet glist` - list guild snippets\n`snippet invite` - invite the bot to your server\n"
+        help_text += "`snippet info` - show info about the bot\n"
         help_text += "*these commands require the manage messages role permission\n\n"
         help_text += "**All commands can be called with `snippet <command>` OR `sp <command>`**"
         await ctx.send(help_text)
@@ -142,6 +144,15 @@ class Snippets(commands.Cog):
         if len(content) > 2000:
             content = content[:1997] + "..."
         await ctx.send(content)
+
+    @commands.command(name="info")
+    async def snippets_info(self, ctx: commands.Context):
+        r = Repo(".")
+        url = f"https://github.com/discollaboration/snippets/commit/{r.head.reference.commit.hexsha}"
+        desc = f"[Snippets@{r.head.reference.commit.hexsha[:7]}]({url})\n\nReserved snippets: {', '.join(special)}"
+        embed = Embed(title="Snippets Bot Info", colour=0x87ceeb, description=desc)
+        embed.set_footer(text="Made by vcokltfre#6868")
+        await ctx.send(embed=embed)
 
     @commands.Cog.listener()
     async def on_message(self, message):
