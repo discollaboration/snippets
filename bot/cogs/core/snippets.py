@@ -162,7 +162,10 @@ class Snippets(commands.Cog):
         msnips = self.find_snippets(message)
         if not msnips: return
 
-        hook = await self.get_hook(message)
+        try:
+            hook = await self.get_hook(message)
+        except:
+            return await message.channel.send("I need to have the manage webhooks permission in this channel to display snippets.", delete_after=15)
 
         content = message.content
         for k, v in msnips.items():
