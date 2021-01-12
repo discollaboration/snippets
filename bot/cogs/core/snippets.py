@@ -10,6 +10,14 @@ from bot.bot import Bot
 sr = compile(r"\{\{\S+\}\}")
 special = ["member_count", "user_count", "bot_count"]
 
+help_text = "**__Available commands:__**\n"
+help_text += "`snippet create <name> <text>` - create a user snippet\n`snippet gcreate <name> <text>` - create a guild snippet*\n"
+help_text += "`snippet delete <name>` - delete a user snippet\n`snippet gdelete <name>` - delete a guild snippet*\n"
+help_text += "`snippet list` - list user snippets\n`snippet glist` - list guild snippets\n`snippet invite` - invite the bot to your server\n"
+help_text += "`snippet info` - show info about the bot\n"
+help_text += "*these commands require the manage messages role permission\n\n"
+help_text += "**All commands can be called with `snippet <command>` OR `sp <command>`**"
+
 
 class Snippets(commands.Cog):
     """Snippets"""
@@ -69,13 +77,6 @@ class Snippets(commands.Cog):
 
     @commands.command(name="help")
     async def snippet_help(self, ctx: commands.Context):
-        help_text = "**__Available commands:__**\n"
-        help_text += "`snippet create <name> <text>` - create a user snippet\n`snippet gcreate <name> <text>` - create a guild snippet*\n"
-        help_text += "`snippet delete <name>` - delete a user snippet\n`snippet gdelete <name>` - delete a guild snippet*\n"
-        help_text += "`snippet list` - list user snippets\n`snippet glist` - list guild snippets\n`snippet invite` - invite the bot to your server\n"
-        help_text += "`snippet info` - show info about the bot\n"
-        help_text += "*these commands require the manage messages role permission\n\n"
-        help_text += "**All commands can be called with `snippet <command>` OR `sp <command>`**"
         await ctx.send(help_text)
 
     @commands.command(name="invite")
@@ -158,6 +159,9 @@ class Snippets(commands.Cog):
     async def on_message(self, message):
         if message.author.bot or not message.guild:
             return
+
+        if message.content in {"sp", "snippet"}:
+            return await message.channel.send(help_text, delete_after=30)
 
         msnips = self.find_snippets(message)
         if not msnips: return
